@@ -1,6 +1,6 @@
-// Add imports above this line
 import SimpleLightbox from "simplelightbox";
-import "simplelightbox/dist/simple-lightbox.min.css";
+import 'simplelightbox/dist/simple-lightbox.min.css';
+// Add imports above this line
 import { galleryItems } from './gallery-items';
 // Change code below this line
 
@@ -18,19 +18,13 @@ const galleryItemsImages = galleryItems.map(({preview, original, description}) =
 
 gallery.insertAdjacentHTML('beforeend', galleryItemsImages);
 
+
+
 gallery.addEventListener('click', openImgBigFoto);
 
 function openImgBigFoto(e) {
     e.preventDefault();
-
-    const img = e.target.dataset.source;
-
-    const instance = basicLightbox.create(`<img src="${img}" width="800" height="600" />`);
-    instance.show()
-
-    window.addEventListener('keydown', e => {
-        if (e.code === "Escape") {
-            instance.close();
-        }
-    })
 };
+
+const lightbox = new SimpleLightbox('.gallery a');
+
