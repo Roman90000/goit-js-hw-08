@@ -11,6 +11,11 @@ textareaEl.addEventListener("input", throttle(ontextareaText, 500));
 
 textareaInputSaved();
 
+function onInputText(e) {
+    const email = e.target.value;
+    localStorage.setItem("email", email);
+}
+
 function ontextareaText(e) {
 const textarea = e.target.value;
     localStorage.setItem("textarea", textarea);
@@ -24,11 +29,6 @@ function onSubmitForm(e) {
     console.log("email :", email);
     const textareaEl = localStorage.getItem("textarea");
     console.log("textarea :", textareaEl)
-}
-
-function onInputText(e) {
-    const email = e.target.value;
-    localStorage.setItem("email", email);
 }
 
 function textareaInputSaved() {
