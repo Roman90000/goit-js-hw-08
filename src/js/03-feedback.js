@@ -26,9 +26,7 @@ function onSubmitForm(e) {
     e.currentTarget.reset();
 
     const email = localStorage.getItem("email");
-    console.log("email :", email);
     const textareaEl = localStorage.getItem("textarea");
-    console.log("textarea :", textareaEl)
 }
 
 function textareaInputSaved() {
