@@ -1,42 +1,38 @@
 import throttle from 'lodash.throttle';
 
-const form = document.querySelector('.feedback-form');
-const inputEmail = document.querySelector('.feedback-form input');
-const textareaEl = document.querySelector('.feedback-form textarea');
+const formEl = document.querySelector('.feedback-form');
 
-form.addEventListener("submit", onSubmitForm);
-inputEmail.addEventListener("input", throttle(onInputText, 500));
-textareaEl.addEventListener("input", throttle(ontextareaText, 500));
+formEl.addEventListener("submit", onSubmitForm);
+formEl.addEventListener("input", throttle(handlerInput, 500));
+window.addEventListener("load", load);
 
+let feedbackFormState = {};
+const LOCALSTORAGE_KEY = "feedback-form-state";
 
-textareaInputSaved();
+function load() {
+    try {
+        const data = localStorage.getItem(LOCALSTORAGE_KEY);
+        if (!data) {
+            return
+        };
+        const feedbackFormState = JSON.parse(data);
+        Object.entries(feedbackFormState).forEach(([key, val]) => {
+            formEl.elements[key].value = val;
+        });
+    } catch (error) {
+        console.log(error.message);
+    };
+};
 
-function onInputText(e) {
-    const email = e.target.value;
-    localStorage.setItem("email", email);
-}
-
-function ontextareaText(e) {
-const textarea = e.target.value;
-    localStorage.setItem("textarea", textarea);
-}
+function handlerInput(e) {
+    feedbackFormState[e.target.name] = e.target.value.trim();
+    localStorage.setItem(LOCALSTORAGE_KEY, JSON.stringify(feedbackFormState));
+};
 
 function onSubmitForm(e) {
     e.preventDefault();
     e.currentTarget.reset();
-
-    const email = localStorage.getItem("email");
-    const textareaEl = localStorage.getItem("textarea");
-}
-
-function textareaInputSaved() {
-    const savedEmail = localStorage.getItem("email");
-    if (savedEmail) {
-        inputEmail.value = savedEmail;
-    }
-
-    const savedtextarea = localStorage.getItem("textarea");
-    if (savedtextarea) {
-        textareaEl.value = savedtextarea;
-    }
+    console.log(feedbackFormState);
+    feedbackFormState = {};
+    localStorage.removeItem(LOCALSTORAGE_KEY);
 };
